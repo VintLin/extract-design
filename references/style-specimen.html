@@ -52,6 +52,16 @@
       --motion-ease-emphasized: cubic-bezier(.2,0,0,1);
 
       --container-max: 1200px;
+
+      /* ===== Background / Motif Primitives ===== */
+      --pattern-size-sm: 16px;
+      --pattern-size-md: 24px;
+      --pattern-size-lg: 40px;
+      --noise-opacity: 0.06;
+      --glow-blur-sm: 36px;
+      --glow-blur-md: 72px;
+      --glow-blur-lg: 120px;
+      --decorative-line-opacity: 0.14;
     }
 
     [data-theme="light"] {
@@ -86,6 +96,19 @@
       --color-code-comment: #64748b;
 
       --focus-ring: 0 0 0 3px rgba(37, 99, 235, .22);
+
+      /* ===== Background / Atmosphere Tokens ===== */
+      --bg-page-base: #ffffff;
+      --bg-page-overlay: linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0));
+      --bg-page-pattern: none;
+      --bg-hero-gradient: radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 42%);
+      --bg-section-muted: #f8fafc;
+      --ambient-glow-primary: rgba(37, 99, 235, 0.16);
+      --ambient-glow-secondary: rgba(14, 165, 233, 0.10);
+      --pattern-stripe-color: rgba(15, 23, 42, 0.08);
+      --pattern-grid-color: rgba(15, 23, 42, 0.06);
+      --pattern-dot-color: rgba(15, 23, 42, 0.10);
+      --motif-line-color: rgba(15, 23, 42, 0.10);
     }
 
     [data-theme="dark"] {
@@ -119,24 +142,71 @@
       --color-code-comment: #64748b;
 
       --focus-ring: 0 0 0 3px rgba(96, 165, 250, .28);
+
+      --bg-page-base: #0b1020;
+      --bg-page-overlay: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+      --bg-page-pattern: none;
+      --bg-hero-gradient: radial-gradient(circle at top right, rgba(96, 165, 250, 0.18), transparent 42%);
+      --bg-section-muted: #111827;
+      --ambient-glow-primary: rgba(96, 165, 250, 0.20);
+      --ambient-glow-secondary: rgba(56, 189, 248, 0.14);
+      --pattern-stripe-color: rgba(255,255,255,0.08);
+      --pattern-grid-color: rgba(255,255,255,0.06);
+      --pattern-dot-color: rgba(255,255,255,0.14);
+      --motif-line-color: rgba(255,255,255,0.12);
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
+    html {
+      background: var(--bg-page-base);
+    }
+
     body {
       font-family: var(--font-family-sans);
-      background: var(--color-bg-page);
       color: var(--color-text-primary);
       line-height: var(--line-height-normal);
+      background:
+        var(--bg-page-overlay),
+        var(--bg-page-pattern),
+        var(--bg-page-base);
       transition:
         background var(--motion-duration-normal) var(--motion-ease-standard),
         color var(--motion-duration-normal) var(--motion-ease-standard);
     }
 
     .page {
+      position: relative;
       max-width: var(--container-max);
       margin: 0 auto;
       padding: var(--space-10) var(--space-6) var(--space-12);
+      isolation: isolate;
+    }
+
+    .page::before {
+      content: "";
+      position: fixed;
+      inset: -10% auto auto -10%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, var(--ambient-glow-primary), transparent 70%);
+      filter: blur(var(--glow-blur-md));
+      opacity: .7;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .page::after {
+      content: "";
+      position: fixed;
+      inset: auto -8% -8% auto;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, var(--ambient-glow-secondary), transparent 72%);
+      filter: blur(var(--glow-blur-lg));
+      opacity: .65;
+      pointer-events: none;
+      z-index: -2;
     }
 
     .section {
@@ -164,6 +234,7 @@
     }
 
     .card {
+      position: relative;
       background: var(--color-surface-1);
       border: 1px solid var(--color-border-default);
       border-radius: var(--radius-lg);
@@ -179,6 +250,10 @@
       transform: translateY(-2px);
       box-shadow: var(--shadow-sm);
       border-color: var(--color-border-strong);
+    }
+
+    .surface-muted {
+      background: var(--bg-section-muted);
     }
 
     .swatch {
@@ -244,6 +319,34 @@
       background: transparent;
       color: var(--color-text-primary);
       border-color: var(--color-border-default);
+    }
+
+    .btn-stripe {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-stripe::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0 8px,
+          var(--pattern-stripe-color) 8px 12px
+        );
+      transform: translateX(-30%);
+      opacity: 0;
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-standard),
+        transform var(--motion-duration-normal) linear;
+      pointer-events: none;
+    }
+
+    .btn-stripe:hover::before {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .input, .select, .textarea {
@@ -367,13 +470,32 @@
     .callout.danger { border-left: 4px solid var(--color-danger); }
 
     .hero {
+      position: relative;
+      overflow: hidden;
       padding: var(--space-8);
       border-radius: calc(var(--radius-xl) + 4px);
       background:
+        var(--bg-hero-gradient),
         linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
         var(--color-surface-2);
       border: 1px solid var(--color-border-default);
       box-shadow: var(--shadow-sm);
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0 23px,
+          rgba(255,255,255,0.04) 23px 24px
+        );
+      opacity: .35;
+      pointer-events: none;
+      z-index: -1;
     }
 
     .toolbar {
@@ -388,13 +510,272 @@
       min-width: 120px;
     }
 
+    /* ===== Background / Atmosphere Demo ===== */
+    .background-board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .bg-sample {
+      min-height: 160px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-default);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .bg-label {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 6px 10px;
+      font-size: var(--font-size-2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--color-text-primary);
+    }
+
+    .bg-page-base {
+      background: var(--bg-page-base);
+    }
+
+    .bg-page-pattern {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0 14px,
+          var(--pattern-stripe-color) 14px 16px
+        ),
+        var(--bg-page-base);
+    }
+
+    .bg-hero-atmosphere {
+      background:
+        radial-gradient(circle at top right, var(--ambient-glow-primary), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+        var(--color-surface-2);
+    }
+
+    .bg-muted-section {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
+        var(--bg-section-muted);
+    }
+
+    .atmosphere-scene {
+      position: relative;
+      min-height: 280px;
+      border-radius: calc(var(--radius-xl) + 6px);
+      overflow: hidden;
+      border: 1px solid var(--color-border-default);
+      background: var(--bg-page-base);
+      box-shadow: var(--shadow-sm);
+      isolation: isolate;
+    }
+
+    .atmosphere-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .atmosphere-base {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
+        var(--bg-page-base);
+    }
+
+    .atmosphere-pattern {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0 18px,
+          var(--pattern-stripe-color) 18px 20px
+        );
+      opacity: .5;
+      animation: pattern-drift 4s linear infinite;
+    }
+
+    .atmosphere-glow::before,
+    .atmosphere-glow::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(var(--glow-blur-md));
+      opacity: .75;
+    }
+
+    .atmosphere-glow::before {
+      width: 220px;
+      height: 220px;
+      right: 10%;
+      top: 10%;
+      background: radial-gradient(circle, var(--ambient-glow-primary), transparent 70%);
+    }
+
+    .atmosphere-glow::after {
+      width: 180px;
+      height: 180px;
+      left: 8%;
+      bottom: 10%;
+      background: radial-gradient(circle, var(--ambient-glow-secondary), transparent 70%);
+    }
+
+    .atmosphere-content {
+      position: relative;
+      z-index: 2;
+      padding: 32px;
+      max-width: 600px;
+    }
+
+    .atmosphere-content h3 {
+      margin: 0 0 10px;
+      font-size: var(--font-size-6);
+      line-height: var(--line-height-tight);
+    }
+
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .motif-card {
+      min-height: 150px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-default);
+      position: relative;
+      overflow: hidden;
+      background: var(--color-surface-1);
+      box-shadow: var(--shadow-xs);
+      padding: 14px;
+      display: flex;
+      align-items: end;
+      font-size: var(--font-size-2);
+      color: var(--color-text-secondary);
+    }
+
+    .motif-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .motif-stripe::before {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0 16px,
+          var(--pattern-stripe-color) 16px 18px
+        );
+    }
+
+    .motif-gridline::before {
+      background:
+        linear-gradient(var(--pattern-grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--pattern-grid-color) 1px, transparent 1px);
+      background-size: var(--pattern-size-md) var(--pattern-size-md);
+    }
+
+    .motif-dots::before {
+      background:
+        radial-gradient(circle, var(--pattern-dot-color) 1px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+
+    .motif-glow::before {
+      background:
+        radial-gradient(circle at 35% 35%, var(--ambient-glow-primary), transparent 36%),
+        radial-gradient(circle at 70% 65%, var(--ambient-glow-secondary), transparent 34%);
+      filter: blur(var(--glow-blur-sm));
+      opacity: .9;
+    }
+
+    .nav-demo {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .nav-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--color-border-default);
+      background: var(--color-surface-1);
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-2);
+    }
+
+    .nav-pill.active {
+      background: var(--color-surface-2);
+      color: var(--color-text-primary);
+      border-color: var(--color-border-strong);
+    }
+
+    .overlay-demo {
+      display: grid;
+      place-items: center;
+      min-height: 200px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border-default);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.05), transparent 45%),
+        var(--color-surface-2);
+    }
+
+    .overlay-demo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.18);
+      pointer-events: none;
+    }
+
+    .modal-card {
+      position: relative;
+      z-index: 2;
+      width: min(420px, calc(100% - 32px));
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border-default);
+      background: var(--color-surface-1);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-5);
+    }
+
+    @keyframes pattern-drift {
+      from { transform: translateX(-16px); }
+      to { transform: translateX(16px); }
+    }
+
+    @media (max-width: 1000px) {
+      .background-board,
+      .motif-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     @media (max-width: 900px) {
       .grid-3 { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 700px) {
       .page { padding: var(--space-8) var(--space-4) var(--space-10); }
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .grid-2, .grid-3,
+      .background-board,
+      .motif-grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -416,13 +797,40 @@
       "source": "replace-with-source",
       "notes": "Replace placeholder tokens and sections with extracted style data."
     },
-    "tokens": {
-      "primitive": {},
-      "semantic": {}
+    "style_character": {
+      "summary": "Replace with a concise summary of the extracted design language.",
+      "mood": [],
+      "density": "replace",
+      "contrast": "replace"
     },
+    "primitives": {
+      "fonts": {},
+      "spacing": {},
+      "radius": {},
+      "shadow": {},
+      "motion": {},
+      "pattern": {}
+    },
+    "semantic": {
+      "colors": {},
+      "surfaces": {},
+      "text": {}
+    },
+    "background": {
+      "page": {},
+      "sections": [],
+      "layers": [],
+      "gradients": [],
+      "patterns": [],
+      "images": [],
+      "overlays": []
+    },
+    "motifs": [],
     "themes": ["light", "dark"],
     "motion": {},
     "components": [],
+    "responsive_rules": [],
+    "accessibility_notes": [],
     "limitations": []
   }
   </script>
@@ -439,11 +847,11 @@
 
     <section class="section hero">
       <h2 style="margin-top:0;">Visual Character</h2>
-      <p class="muted">Replace this with a concise summary of the extracted design language.</p>
+      <p class="muted">Replace this with a concise summary of the extracted design language, including atmosphere and motifs.</p>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn btn-primary">Primary action</button>
         <button class="btn btn-secondary">Secondary action</button>
-        <button class="btn btn-ghost">Ghost action</button>
+        <button class="btn btn-ghost btn-stripe">Motif action</button>
       </div>
     </section>
 
@@ -474,6 +882,51 @@
         <p style="font-size:var(--font-size-3);line-height:var(--line-height-normal);margin-top:16px;">Body text sample for standard reading rhythm and paragraph flow.</p>
         <p class="muted" style="font-size:var(--font-size-2);">Secondary / caption text sample.</p>
         <code style="font-family:var(--font-family-mono);font-size:13px;">inline code sample()</code>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Background System</h2>
+      <div class="background-board">
+        <div class="bg-sample bg-page-base">
+          <div class="bg-label">Page Base</div>
+        </div>
+        <div class="bg-sample bg-page-pattern">
+          <div class="bg-label">Pattern Layer</div>
+        </div>
+        <div class="bg-sample bg-hero-atmosphere">
+          <div class="bg-label">Hero Atmosphere</div>
+        </div>
+        <div class="bg-sample bg-muted-section">
+          <div class="bg-label">Muted Section</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Atmosphere Demo</h2>
+      <div class="atmosphere-scene">
+        <div class="atmosphere-layer atmosphere-base"></div>
+        <div class="atmosphere-layer atmosphere-pattern"></div>
+        <div class="atmosphere-layer atmosphere-glow"></div>
+        <div class="atmosphere-content">
+          <h3>Hero-style atmosphere</h3>
+          <p class="muted">Combined base, pattern, glow, overlay, and section surface treatment.</p>
+          <div class="btn-row" style="margin-top:16px;">
+            <button class="btn btn-primary">Launch</button>
+            <button class="btn btn-ghost btn-stripe">Preview</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Motif Library</h2>
+      <div class="motif-grid">
+        <div class="motif-card motif-stripe">Diagonal Stripe</div>
+        <div class="motif-card motif-gridline">Gridline</div>
+        <div class="motif-card motif-dots">Dot Field</div>
+        <div class="motif-card motif-glow">Ambient Glow</div>
       </div>
     </section>
 
@@ -520,6 +973,18 @@
     </section>
 
     <section class="section">
+      <h2>Navigation</h2>
+      <div class="card">
+        <div class="nav-demo">
+          <span class="nav-pill active">Overview</span>
+          <span class="nav-pill">Components</span>
+          <span class="nav-pill">Patterns</span>
+          <span class="nav-pill">Code</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <h2>Table</h2>
       <table class="table">
         <thead>
@@ -533,6 +998,11 @@
           <tr>
             <td>Typography</td>
             <td>Extracted</td>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <td>Atmosphere</td>
+            <td>Structured</td>
             <td>Ready</td>
           </tr>
           <tr>
@@ -559,9 +1029,10 @@
           <span>TypeScript</span>
         </div>
         <pre><code><span class="token-comment">// Replace with extracted code theme</span>
-<span class="token-keyword">const</span> tokens = {
-  radius: <span class="token-number">12</span>,
-  surface: <span class="token-string">"card"</span>
+<span class="token-keyword">const</span> motifs = {
+  stripe: <span class="token-string">"diagonal"</span>,
+  glow: <span class="token-string">"ambient"</span>,
+  density: <span class="token-number">0.12</span>
 };</code></pre>
       </div>
     </section>
@@ -573,6 +1044,20 @@
         <div class="callout success"><strong>Success</strong><br><span class="muted">Success style sample.</span></div>
         <div class="callout warning"><strong>Warning</strong><br><span class="muted">Warning style sample.</span></div>
         <div class="callout danger"><strong>Danger</strong><br><span class="muted">Danger style sample.</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overlay</h2>
+      <div class="overlay-demo">
+        <div class="modal-card">
+          <h3 style="margin-top:0;">Modal Surface</h3>
+          <p class="muted">Use this to demonstrate overlay, scrim, blur, and elevated surface behavior.</p>
+          <div class="btn-row" style="margin-top:16px;">
+            <button class="btn btn-primary">Confirm</button>
+            <button class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>

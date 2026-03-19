@@ -1,4 +1,4 @@
-# Extract Web Style
+# Extract Design
 
 A Claude Code skill for extracting a webpage's design language into a reusable HTML style reference file. Perfect for learning design systems, creating AI-generated pages in a specific style, or building design token systems.
 
@@ -31,14 +31,12 @@ The output is a self-contained HTML file that another AI can read and use to gen
 git clone https://github.com/VintLin/extract-design.git ~/.claude/skills/extract-design
 ```
 
-Then use it by typing `/extract-web-style` in Claude Code.
+Then use it by typing `/extract-design` in Claude Code.
 
 ### Manual Copy
 
 ```bash
-mkdir -p ~/.claude/skills/extract-design/specimens
-cp SKILL.md ~/.claude/skills/extract-design/
-cp -r specimens/ ~/.claude/skills/extract-design/
+git clone https://github.com/VintLin/extract-design.git ~/.claude/skills/extract-design
 ```
 
 ## Usage
@@ -46,7 +44,7 @@ cp -r specimens/ ~/.claude/skills/extract-design/
 ### Extract a Website's Design
 
 ```
-/extract-web-style
+/extract-design
 
 > "Extract the design system from https://factory.ai"
 ```
@@ -56,12 +54,12 @@ The skill will:
 2. Extract typography, colors, spacing, motion
 3. Identify component patterns and states
 4. Generate a universal style specimen HTML
-5. Save it to `specimens/<site-name>-specimen.html`
+5. Save it to `assets/theme/<site-name>-style-specimen.html` inside the skill directory
 
 ### Create Pages in the Extracted Style
 
 ```
-/extract-web-style
+/extract-design
 
 > "Use the factory.ai design system to create a landing page for my open-source project"
 ```
@@ -75,8 +73,10 @@ Each extraction produces:
 | File | Purpose |
 |------|---------|
 | `SKILL.md` | The extraction skill itself |
-| `specimens/*.html` | Extracted style specimens |
-| `references/` | Supporting documentation |
+| `scripts/extract-styles.py` | Built-in Playwright extraction script |
+| `assets/theme/*-style-manifest.json` | Structured style manifest (JSON) |
+| `assets/theme/*-style-specimen.html` | Universal style specimen HTML |
+| `references/` | Supporting documentation and templates |
 
 ## Architecture
 
@@ -85,7 +85,7 @@ This skill follows a **progressive disclosure** design:
 | File | Purpose | Loaded When |
 |------|---------|-------------|
 | `SKILL.md` | Core workflow and extraction rules | Always (skill invocation) |
-| `specimens/*.html` | Extracted design references | When generating pages in that style |
+| `assets/theme/*.html` | Extracted design references | When generating pages in that style |
 
 The skill prioritizes:
 - **Abstraction over fidelity** — same design language, not same page
@@ -108,7 +108,8 @@ The skill prioritizes:
 ## Requirements
 
 - [Claude Code](https://claude.ai/claude-code) CLI
-- Playwright browser (for live webpage extraction)
+- Python 3.8+
+- Playwright: `pip install playwright && playwright install chromium`
 - Web access (for fetching target pages)
 
 ## Credits

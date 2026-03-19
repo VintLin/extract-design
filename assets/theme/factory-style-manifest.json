@@ -1,0 +1,255 @@
+{
+  "meta": {
+    "title": "Factory.ai Style Manifest",
+    "source": "https://factory.ai/",
+    "notes": "Agent-native software development company. Light-first design (default theme=light) with orange accent. Monospace UI elements, diagonal stripe hover motif on buttons. Supports light/dark/system themes.",
+    "extracted_at": "2026-03-19",
+    "extraction_mode": "live render via headless browser",
+    "default_theme": "light",
+    "dark_mode": true,
+    "reduced_motion": true
+  },
+  "style_character": {
+    "summary": "Light-first, minimal SaaS design with warm neutral palette and orange accent. Terminal-inspired monospace for labels and nav. Signature diagonal stripe motif on button hover. Clean, professional, slightly industrial.",
+    "mood": ["minimal", "professional", "terminal-inspired", "warm-neutral"],
+    "density": "comfortable",
+    "contrast": "high"
+  },
+  "primitives": {
+    "fonts": {
+      "sans": "Geist, \"Geist Fallback\", system-ui, sans-serif",
+      "mono": "\"Geist Mono\", \"Geist Mono Fallback\", ui-monospace, monospace"
+    },
+    "colors": {
+      "accent_100": "#ef6f2e",
+      "accent_200": "#ee6018",
+      "accent_300": "#d15010",
+      "dark_base_primary": "#020202",
+      "dark_base_secondary": "#101010",
+      "light_base_primary": "#eeeeee",
+      "light_base_secondary": "#fafafa",
+      "neutral_100": "#d6d3d2",
+      "neutral_200": "#ccc9c7",
+      "neutral_300": "#b8b3b0",
+      "neutral_400": "#a49d9a",
+      "neutral_500": "#8a8380",
+      "neutral_600": "#5c5855",
+      "neutral_700": "#4d4947",
+      "neutral_800": "#3d3a39",
+      "neutral_900": "#2e2c2b",
+      "neutral_1000": "#1f1d1c"
+    },
+    "radius": {
+      "base": "0.625rem",
+      "btn": "4px",
+      "card": "6px",
+      "badge": "4px"
+    },
+    "motion": {
+      "duration_fast": "150ms",
+      "duration_normal": "200ms",
+      "duration_slow": "250ms",
+      "duration_slower": "300ms",
+      "ease_standard": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "semantic": {
+    "light": {
+      "bg_page": "#eeeeee",
+      "bg_surface_1": "#fafafa",
+      "bg_surface_2": "#eeeeee",
+      "text_primary": "#020202",
+      "text_secondary": "#4d4947",
+      "text_muted": "#a49d9a",
+      "text_accent": "#ee6018",
+      "border_default": "#b8b3b0",
+      "border_strong": "#8a8380",
+      "card_bg": "#fafafa",
+      "card_border": "#b8b3b0"
+    },
+    "dark": {
+      "bg_page": "#020202",
+      "bg_surface_1": "#101010",
+      "bg_surface_2": "#1f1d1c",
+      "text_primary": "#eeeeee",
+      "text_secondary": "#a49d9a",
+      "text_muted": "#4d4947",
+      "text_accent": "#ee6018",
+      "border_default": "#3d3a39",
+      "border_strong": "#5c5855",
+      "card_bg": "#101010",
+      "card_border": "#3d3a39"
+    }
+  },
+  "background": {
+    "page": {
+      "light": "#eeeeee",
+      "dark": "#020202"
+    },
+    "patterns": [
+      {
+        "name": "diagonal_stripe",
+        "description": "45-degree diagonal stripe, used as button hover overlay and decorative layer. Animates on hover.",
+        "css": "repeating-linear-gradient(45deg, transparent 0px, transparent 2px, {stripe_color} 2px, {stripe_color} 3px, transparent 3px, transparent 5px)",
+        "bg_size": "7.07px 7.07px",
+        "stripe_color_dark_strong": "#4d4947",
+        "stripe_color_dark_muted": "#a49d9a",
+        "animation": "slidePattern 2000ms linear infinite",
+        "trigger": "group-hover, group-focus-visible"
+      }
+    ],
+    "gradients": [
+      {
+        "name": "scroll_fade_left",
+        "css_light": "linear-gradient(to right in oklab, #eeeeee 0px, transparent 100%)",
+        "css_dark": "linear-gradient(to right in oklab, #020202 0px, transparent 100%)",
+        "usage": "horizontal scroll container edge fade"
+      },
+      {
+        "name": "scroll_fade_right",
+        "css_light": "linear-gradient(to left in oklab, #eeeeee 0px, transparent 100%)",
+        "css_dark": "linear-gradient(to left in oklab, #020202 0px, transparent 100%)",
+        "usage": "horizontal scroll container edge fade"
+      }
+    ]
+  },
+  "motifs": [
+    {
+      "name": "diagonal_stripe",
+      "type": "pattern",
+      "description": "Signature 45-degree diagonal stripe overlay on interactive elements. Paused by default, plays on hover/focus. Two stripe color variants: strong (#4d4947) and muted (#a49d9a).",
+      "css": "repeating-linear-gradient(45deg, transparent 0px, transparent 2px, #4d4947 2px, #4d4947 3px, transparent 3px, transparent 5px)",
+      "bg_size": "7.07px 7.07px",
+      "animation": "slidePattern 2000ms linear infinite",
+      "state": "paused by default, running on group-hover/group-focus-visible"
+    }
+  ],
+  "themes": {
+    "default": "light",
+    "switcher": "three-way: light / dark / system",
+    "light": {
+      "body_bg": "#eeeeee",
+      "body_color": "#020202",
+      "card_bg": "#fafafa",
+      "card_border": "#b8b3b0"
+    },
+    "dark": {
+      "body_bg": "#020202",
+      "body_color": "#eeeeee",
+      "card_bg": "#101010",
+      "card_border": "#3d3a39"
+    }
+  },
+  "motion": {
+    "ease_standard": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "duration_fast": "150ms",
+    "duration_normal": "200ms",
+    "duration_slow": "250ms",
+    "animations": [
+      {
+        "name": "slidePattern",
+        "keyframes": "0% { transform: translateX(-30%); } 100% { transform: translateX(0%); }",
+        "duration": "2000ms",
+        "timing": "linear",
+        "iteration": "infinite",
+        "usage": "diagonal stripe hover overlay"
+      }
+    ]
+  },
+  "typography": {
+    "h1": {
+      "font_family": "Geist, sans-serif",
+      "font_size": "60px",
+      "font_weight": "400",
+      "letter_spacing": "-2.88px",
+      "line_height": "100%"
+    },
+    "body": {
+      "font_family": "Geist, sans-serif",
+      "font_size": "16px",
+      "font_weight": "400"
+    },
+    "mono_label": {
+      "font_family": "Geist Mono, monospace",
+      "font_size": "12px",
+      "letter_spacing": "-0.015rem",
+      "text_transform": "uppercase",
+      "usage": "nav links, badges, labels"
+    },
+    "mono_link": {
+      "font_family": "Geist Mono, monospace",
+      "font_size": "14-16px",
+      "color": "#ee6018"
+    }
+  },
+  "components": [
+    {
+      "name": "button_primary",
+      "bg": "#1f1d1c",
+      "color": "#eeeeee",
+      "border": "transparent",
+      "border_radius": "4px",
+      "padding": "0 14px",
+      "height": "25px",
+      "font_size": "16px",
+      "font_family": "Geist, sans-serif",
+      "transition": "color 150ms cubic-bezier(0.4,0,0.2,1), background-color 150ms cubic-bezier(0.4,0,0.2,1)",
+      "hover_stripe": true
+    },
+    {
+      "name": "button_secondary",
+      "bg": "#eeeeee",
+      "color": "#020202",
+      "border": "1px solid #b8b3b0",
+      "border_radius": "4px",
+      "padding": "0 14px",
+      "height": "25px",
+      "hover_stripe": true,
+      "hover_stripe_color": "#a49d9a"
+    },
+    {
+      "name": "card",
+      "bg_light": "#fafafa",
+      "bg_dark": "#101010",
+      "border_light": "1px solid #b8b3b0",
+      "border_dark": "1px solid #3d3a39",
+      "border_radius": "6px",
+      "padding": "16px 0"
+    },
+    {
+      "name": "nav_link",
+      "font_family": "Geist Mono, monospace",
+      "font_size": "12px",
+      "letter_spacing": "-0.015rem",
+      "text_transform": "uppercase",
+      "color": "#a49d9a",
+      "hover_color": "#ee6018"
+    },
+    {
+      "name": "accent_link",
+      "font_family": "Geist Mono, monospace",
+      "font_size": "14-16px",
+      "color": "#ee6018"
+    }
+  ],
+  "responsive_rules": [
+    {
+      "breakpoint": "md",
+      "nav_visible": true,
+      "container_padding": "36px"
+    },
+    {
+      "breakpoint": "lg",
+      "grid_cols": 12
+    }
+  ],
+  "accessibility_notes": [
+    "Three-way theme switcher: light / dark / system",
+    "Reduced motion: stripe animations respect prefers-reduced-motion",
+    "Focus-visible outlines on interactive elements"
+  ],
+  "limitations": [
+    "Hover/active states inferred from class names; not all states directly observed",
+    "Some section-level spacing values estimated from visual inspection"
+  ]
+}

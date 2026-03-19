@@ -1,9 +1,48 @@
 ---
-name: extract-web-style
-description: Use this skill when the user wants to extract a webpage's design language into a reusable HTML style reference file, including typography, colors, spacing, surfaces, components, states, themes, motion, and code-block styles. The output should be a universal style specimen HTML for future AI-generated pages, not a 1:1 copy of the original page.
+name: extract-design
+description: Use this skill when the user wants to extract a webpage's design language into a reusable HTML style reference file, including typography, colors, spacing, surfaces, components, states, themes, motion, code-block styles, background atmosphere, decorative motifs, and art direction. The output should be a universal style specimen HTML for future AI-generated pages, not a 1:1 copy of the original page. Extracted style files are saved to the skill's own `assets/theme/` directory, never to the user's project.
 ---
 
-# Extract Web Style
+# Extract Design
+
+## Output Location
+
+**CRITICAL**: All extracted style files MUST be saved to the skill's own `assets/theme/` directory — never to the user's project directory, never to a relative path from the current working directory.
+
+**Before writing any output file**, resolve the skill directory by running:
+
+```
+Glob pattern: **/skills/extract-design/SKILL.md
+```
+
+The directory containing that `SKILL.md` file is `SKILL_DIR`. All output goes under `SKILL_DIR/assets/theme/`.
+
+Output files use the source domain or project name as a prefix:
+
+```
+SKILL_DIR/assets/theme/
+├── {name}-style-manifest.json    # Structured style manifest
+└── {name}-style-specimen.html    # Universal style specimen HTML
+```
+
+Examples (where `SKILL_DIR` is whatever path the Glob resolved):
+- `{SKILL_DIR}/assets/theme/ampcode-style-manifest.json`
+- `{SKILL_DIR}/assets/theme/ampcode-style-specimen.html`
+- `{SKILL_DIR}/assets/theme/vercel-style-manifest.json`
+- `{SKILL_DIR}/assets/theme/vercel-style-specimen.html`
+
+Create the `assets/theme/` directory if it does not exist before writing.
+
+---
+
+## Reference Files
+
+The `references/` directory inside this skill contains two files you MUST use during every extraction. Both paths are relative to `SKILL_DIR` (resolved via Glob above):
+
+- `{SKILL_DIR}/references/extraction-checklist.md` — comprehensive checklist for all extraction dimensions. Work through every section; note why if a dimension is not applicable.
+- `{SKILL_DIR}/references/style-specimen.html` — structural template for Output C. Your generated specimen must follow the same structure.
+
+---
 
 ## When to use
 
@@ -11,10 +50,11 @@ Use this skill when the user wants to:
 
 - 提取某个网页的视觉风格
 - 让 AI 学习一个网站的设计语言并生成同风格页面
-- 从网页中抽取字体、字号、字色、背景样式、动画、卡片样式、代码块样式
+- 从网页中抽取字体、字号、字色、背景样式、图片背景、条纹/网格/纹理、动画、卡片样式、代码块样式
 - 将网页风格沉淀为一个可复用的 HTML 参考文件
-- 构建“设计样张页 / style specimen / design reference file”
+- 构建设计样张页 / style specimen / design reference file
 - 将一个具体网页抽象成更通用的设计系统表达
+- 抽取整页“氛围感 / atmosphere / art direction”，而不仅是组件样式
 
 Do **not** use this skill if the user wants:
 
@@ -22,6 +62,7 @@ Do **not** use this skill if the user wants:
 - 仅复制页面 DOM 或下载页面资源
 - 仅修复某个单独 CSS 问题
 - 仅做像素级 1:1 复刻
+- 仅导出 raw CSS dump
 
 This skill is for **style system extraction**, not page cloning.
 
@@ -35,9 +76,11 @@ Your task is to extract the page's **visual system** and represent it as:
 
 1. **Primitive tokens**
 2. **Semantic tokens**
-3. **Component archetypes**
-4. **Interaction rules**
-5. **A universal style specimen HTML**
+3. **Background / atmosphere system**
+4. **Decorative motif system**
+5. **Component archetypes**
+6. **Interaction rules**
+7. **A universal style specimen HTML**
 
 The final result must be a **general-purpose reference file** that another AI can read and use to generate new pages in the same style.
 
@@ -46,10 +89,13 @@ Think in terms of:
 - design tokens
 - semantic roles
 - theme layers
+- background atmosphere
+- decorative motifs
 - component patterns
 - state behavior
 - motion language
 - responsive rules
+- art direction
 
 Do **not** think in terms of:
 
@@ -57,6 +103,11 @@ Do **not** think in terms of:
 - mirroring page DOM
 - dumping raw CSS blindly
 - preserving irrelevant content text
+- flattening atmospheric styling into a single background color
+
+The goal is:
+
+**Preserve not only the component language, but also the page atmosphere, decorative motifs, and art direction. A faithful extraction must capture both system structure and visual mood.**
 
 ---
 
@@ -72,6 +123,8 @@ A concise explanation of the extracted style system:
 - color system
 - spacing/layout rhythm
 - surface/elevation language
+- background / atmosphere language
+- decorative motifs
 - motion language
 - component family
 - theme/responsive behavior
@@ -79,11 +132,13 @@ A concise explanation of the extracted style system:
 - limitations
 
 ### Output B — Structured style manifest
-A machine-readable structure describing:
+A required machine-readable JSON file saved to `{SKILL_DIR}/assets/theme/{name}-style-manifest.json`, describing:
 
 - meta
 - primitives
 - semantic tokens
+- background system
+- motifs
 - themes
 - motion tokens
 - component archetypes
@@ -91,13 +146,13 @@ A machine-readable structure describing:
 - accessibility notes
 - limitations
 
-Use JSON or JSON-like structured data when useful.
-
 ### Output C — Universal style specimen HTML
 A single HTML file containing:
 
 - CSS tokens
 - theme layers
+- background/atmosphere layers
+- motif samples
 - component styles
 - specimen sections
 - a design manifest in `<script type="application/json">`
@@ -246,6 +301,9 @@ Also summarize animation archetypes such as:
 - subtle glow
 - hover lift
 - underline reveal
+- pattern drift
+- shimmer
+- scan-line motion
 
 ### 7. Component archetypes
 Extract reusable component families rather than page-specific instances.
@@ -318,6 +376,77 @@ Capture:
 - reduced motion handling
 - print behavior if visible or inferable
 
+### 10. Atmosphere / Background System
+Extract the page-level and section-level visual atmosphere, not only flat background colors.
+
+You must inspect and abstract:
+
+- page background color
+- section background color
+- hero background treatments
+- gradients (linear / radial / conic)
+- repeating patterns (stripes / grid / dots / lines / checker / mesh)
+- image-based backgrounds
+- SVG decorative backgrounds
+- noise / grain / texture overlays
+- glow / blur / vignette / spotlight effects
+- background blend / mask / filter usage
+- pseudo-element decorative layers (`::before`, `::after`)
+- absolutely positioned decorative elements
+- floating blobs / glow shapes / ambient lights
+- background repeat / size / position / attachment
+- section separators / dividers that contribute to overall mood
+- whether the site atmosphere is flat / textured / editorial / futuristic / industrial / terminal-like / soft / playful
+
+Do not flatten atmospheric styling into a single `background-color`.
+Always model it as a distinct system.
+
+Examples of useful semantic outputs:
+
+- `--bg-page-base`
+- `--bg-page-overlay`
+- `--bg-page-pattern`
+- `--bg-hero-gradient`
+- `--bg-section-muted`
+- `--pattern-stripe-color`
+- `--pattern-grid-color`
+- `--texture-noise-opacity`
+- `--ambient-glow-primary`
+- `--ambient-glow-blur`
+- `--decorative-line-opacity`
+
+### 11. Decorative Motif System
+Extract repeated visual motifs that may appear in only a few places but clearly shape the site’s identity.
+
+You must inspect and abstract:
+
+- diagonal stripes
+- grids
+- dotted fields
+- editorial rules/lines
+- terminal scan lines
+- waveform / chart-like lines
+- geometric accents
+- glow shapes
+- border corner treatments
+- repeated iconography
+- signature hover textures
+- signature pattern movement
+- recurring mask or clipping styles
+- recurring pseudo-element decorations
+
+A motif may originate in one component but still represent page-level visual DNA.
+Elevate it when appropriate.
+
+Useful outputs include:
+
+- `motifs.diagonal-stripe`
+- `motifs.gridline`
+- `motifs.editorial-rule`
+- `motifs.noise-overlay`
+- `motifs.ambient-glow`
+- `motifs.scanline`
+
 ---
 
 ## Extraction method
@@ -335,6 +464,16 @@ Prioritize:
 - effective animations
 
 Do not rely solely on authored CSS.
+
+**Mandatory computed style checks** — before recording any token value, use browser tools to read the actual computed value. Do not infer from class names, design system conventions, or framework patterns. Specifically:
+
+- Read `document.documentElement.getAttribute('data-theme')` to confirm the **actual default theme** on page load. Never assume dark-first or light-first from visual appearance alone.
+- Read CSS custom properties via `getComputedStyle(document.documentElement).getPropertyValue('--var-name')` to get exact values.
+- Read computed colors via `getComputedStyle(el).backgroundColor`, `.color`, `.borderColor` etc. — not from class names.
+- Read computed transitions via `getComputedStyle(el).transition` to get the actual easing curve, not a generic approximation.
+- Read `background-image` on all elements to detect patterns, gradients, and motifs.
+
+If a value **cannot** be read via computed style (e.g. cross-origin stylesheet blocked, canvas-only visuals), you **must** label it as `"inferred"` in the manifest's `limitations` field. Do not silently use an approximated value as if it were measured.
 
 ### Rule 2: Cluster before naming
 Do not emit a token for every distinct observed value.
@@ -408,9 +547,72 @@ Typical limitations include:
 - visited-link privacy behavior
 - hard-to-observe interaction states
 
+### Rule 8: Extract atmosphere separately from components
+A page may feel distinctive because of background treatment, not because of buttons or cards.
+
+Always inspect atmosphere at 4 levels: page-level (`html`/`body`/main wrappers), section-level (hero, feature, CTA), decorative-layer (pseudo-elements, absolutely positioned ornaments, SVG art-direction layers), and motif system (stripes, grids, scan lines, grain, glows, repeated patterns).
+
+When inspecting, always check: `background`, `background-image`, `background-size/repeat/position/attachment`, `mask`, `mask-image`, `filter`, `backdrop-filter`, `opacity`, `mix-blend-mode`, `isolation`, decorative SVGs, data URI / base64 backgrounds, and pseudo-element paint layers.
+
+If an atmospheric pattern appears only in one component but clearly represents the site's broader visual language, elevate it into a motif token rather than leaving it inside that component.
+
+### Rule 9: Capture mood, not only implementation
+
+In addition to CSS facts, summarize the visual mood in plain language.
+
+Examples:
+
+- warm editorial minimalism
+- futuristic terminal-industrial
+- crisp enterprise dashboard
+- soft gradient SaaS marketing
+- playful geometric education product
+- brutalist poster-like system
+
+This mood description should align with the extracted tokens and motifs.
+
+---
+
+## Browser tool
+
+Do **not** attempt to extract styles by reading static HTML source or stylesheet files alone — computed styles, CSS variable resolution, and theme state require a live browser context.
+
+This skill ships a self-contained Python/Playwright script. Before running it, resolve `SKILL_DIR` using the Glob pattern `**/skills/extract-design/SKILL.md` (as described in **Output Location** above), then substitute it into the path below.
+
+**Setup (one-time):**
+
+```bash
+pip install playwright
+playwright install chromium
+```
+
+**Usage:**
+
+```bash
+# Light mode only
+python3 {SKILL_DIR}/scripts/extract-styles.py https://example.com
+
+# Light + dark mode
+python3 {SKILL_DIR}/scripts/extract-styles.py https://example.com --dark
+
+# Save to file
+python3 {SKILL_DIR}/scripts/extract-styles.py https://example.com --dark --out /tmp/styles.json
+```
+
+The script outputs structured JSON with `light` and `dark` keys, each containing:
+- `cssVars` — all CSS custom properties (`--*`) from stylesheets
+- `colors` — computed `backgroundColor`, `color` on `html`/`body`/card elements
+- `fonts` — computed `fontFamily`, `fontSize`, `fontWeight` on body, h1, h2
+- `button` — computed styles on the first `<button>`
+- `backgroundImages` — all elements with `background-image !== none` (patterns, gradients)
+- `accentColors` — computed colors on links and accent/brand-classed elements
+- `typography` — h1 size, weight, letter-spacing, line-height, color
+
 ---
 
 ## Recommended extraction workflow
+
+**Before starting**: Open `{SKILL_DIR}/references/extraction-checklist.md` and keep it open throughout. Check off each item as you complete it. Use `{SKILL_DIR}/references/style-specimen.html` as your structural template when building Output C.
 
 ### Step 1 — Characterize the page
 Summarize:
@@ -421,19 +623,26 @@ Summarize:
 - tone
 - motion intensity
 - component complexity
+- atmospheric character
+- recurring motifs
 
 ### Step 2 — Gather raw observations
-Collect all observed values for:
+Collect all observed values by **reading computed styles directly**, not by inferring from class names or source code.
 
-- fonts
-- colors
-- spacing
-- radius
-- shadows
-- borders
-- durations
-- easings
-- layout widths
+Required checks (run these before proceeding to Step 3):
+
+1. **Default theme**: `document.documentElement.getAttribute('data-theme')` — record the actual value on page load
+2. **Body background**: `getComputedStyle(document.body).backgroundColor`
+3. **Body color**: `getComputedStyle(document.body).color`
+4. **Font family**: `getComputedStyle(document.body).fontFamily`
+5. **CSS custom properties**: iterate `document.styleSheets` to extract all `--` variables with their actual values
+6. **Accent/brand colors**: query key elements (links, buttons, badges) and read `.color` and `.backgroundColor`
+7. **Background patterns**: query all elements for `backgroundImage !== 'none'` — record the full value including gradient stops and `background-size`
+8. **Transitions**: read `getComputedStyle(el).transition` on buttons and interactive elements — record the exact easing function
+9. **Card/surface styles**: read `backgroundColor`, `borderColor`, `borderRadius`, `boxShadow` on card elements
+10. **Dark mode**: if a theme toggle exists, activate dark mode and re-read the above values
+
+Record raw values first. Do not skip to naming or abstracting until all raw values are collected.
 
 ### Step 3 — Normalize into primitives
 Reduce noise and create primitive tokens.
@@ -441,135 +650,60 @@ Reduce noise and create primitive tokens.
 ### Step 4 — Map to semantic tokens
 Assign role-based names.
 
-### Step 5 — Build component archetypes
+### Step 5 — Build background and motif systems
+Identify:
+
+- page base layers
+- section atmosphere variants
+- decorative overlays
+- signature motifs/patterns
+- hero atmosphere composition
+
+### Step 6 — Build component archetypes
 Identify reusable component families.
 
-### Step 6 — Derive interaction rules
+### Step 7 — Derive interaction rules
 Summarize the state transitions and motion behavior.
 
-### Step 7 — Build the specimen HTML
-Create a general-purpose design reference page.
+### Step 8 — Build the specimen HTML
+Create a general-purpose design reference page following the structure in `{SKILL_DIR}/references/style-specimen.html`. Save to `{SKILL_DIR}/assets/theme/{name}-style-specimen.html`.
 
-### Step 8 — Validate usefulness
+### Step 9 — Validate usefulness
 Ask:
 - Could another AI use this to generate a new page in the same style?
 - Does it capture the system rather than only one page?
 - Does it include tokens, themes, components, states, motion, and code blocks?
+- Does it include atmosphere and motifs?
 
 If not, revise.
 
 ---
 
-## Required HTML specimen structure
+## Required style manifest schema
 
-The final universal reference HTML should generally contain:
+The structured manifest should generally follow this shape:
 
-1. `:root` primitive tokens
-2. semantic theme blocks such as:
-   - `[data-theme="light"]`
-   - `[data-theme="dark"]`
-3. component archetype CSS
-4. specimen sections showing:
-   - colors
-   - typography
-   - spacing/layout
-   - surfaces
-   - buttons
-   - cards
-   - forms
-   - navigation
-   - tables
-   - prose/content
-   - code blocks
-   - overlays
-   - alerts/toasts
-   - motion examples
-5. a machine-readable manifest:
-   - `<script type="application/json" id="design-manifest">...</script>`
-
-The specimen file should act as both:
-- a human-readable design guide
-- a machine-readable style source
-
----
-
-## Required specimen sections
-
-The HTML should include these sections whenever possible:
-
-- Color board
-- Typography scale
-- Spacing/layout board
-- Surface/elevation board
-- Buttons
-- Cards
-- Forms
-- Navigation
-- Table/content/prose
-- Code blocks
-- Alerts/callouts
-- Overlay components
-- Motion preview
-- Theme switch demo
-
----
-
-## Quality bar
-
-A good extraction should satisfy all of the following:
-
-- It explains the style system clearly
-- It uses semantic naming
-- It separates primitives from semantic roles
-- It includes major states and variants
-- It supports theme/responsive behavior where relevant
-- It contains a reusable specimen HTML
-- It is useful for future AI page generation
-- It explicitly reports limitations and uncertainty
-
-A bad extraction usually looks like:
-
-- raw CSS dump
-- copied DOM
-- no semantic tokens
-- no component abstraction
-- no states
-- no dark mode / responsive thinking
-- no machine-readable manifest
-- no code-block treatment
-
----
-
-## Response format
-
-When responding, prefer this structure:
-
-### 1. 风格判断
-Brief summary of the page’s visual character.
-
-### 2. 提取结果
-Structured extraction summary by category.
-
-### 3. 设计清单
-A structured manifest of tokens/components/rules.
-
-### 4. 通用 HTML 参考文件
-Provide the HTML specimen file.
-
-### 5. 局限与风险
-Explain what could not be reliably extracted.
-
----
-
-## Special instruction
-
-If the user asks for “通用化、可复用、可给 AI 参考”的输出:
-
-- prioritize abstraction over exact fidelity
-- prefer semantic tokens over raw CSS
-- include placeholders rather than original page content
-- include representative components beyond what appears on the page when they are clearly implied by the style system
-- make the reference file broad enough for future page generation, but do not fabricate wildly inconsistent UI
-
-The goal is:
-**same design language, not same page.**
+```json
+{
+  "meta": {},
+  "style_character": {},
+  "primitives": {},
+  "semantic": {},
+  "background": {
+    "page": {},
+    "sections": [],
+    "layers": [],
+    "gradients": [],
+    "patterns": [],
+    "images": [],
+    "overlays": []
+  },
+  "motifs": [],
+  "themes": {},
+  "motion": {},
+  "components": [],
+  "responsive_rules": [],
+  "accessibility_notes": [],
+  "limitations": []
+}
+```
