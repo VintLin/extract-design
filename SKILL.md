@@ -42,6 +42,8 @@ The `references/` directory inside this skill contains two files you MUST use du
 - `{SKILL_DIR}/references/extraction-checklist.md` — comprehensive checklist for all extraction dimensions. Work through every section; note why if a dimension is not applicable.
 - `{SKILL_DIR}/references/style-specimen.html` — structural template for Output C. Your generated specimen must follow the same structure.
 
+**WARNING**: The template contains `/* REPLACE */` placeholders for every CSS token value. You MUST replace ALL of them with values measured from the target site. Do NOT keep any placeholder value in the final output. A `/* REPLACE */` in the output file means the extraction is incomplete.
+
 ---
 
 ## When to use
@@ -270,40 +272,48 @@ Examples:
 - `--shadow-elevated`
 - `--focus-ring`
 
-### 6. Motion
-Extract:
+### 6. Motion / Animation
+Extract motion and animation tokens:
 
+**Transitions** (via computed styles):
 - transition durations
 - easing curves
 - delays
 - common hover motion
-- enter/exit animation styles
 - transform language
 - opacity motion
-- reduced motion fallback
-- loading/skeleton movement
-- scroll-linked effects if visually important
 
-Abstract into motion tokens.
+**@keyframes animations** (require direct stylesheet parsing):
+- Each `@keyframes` rule must be captured separately — `extract-styles.py` does NOT capture these
+- For each keyframe, record: name, semantic description, from/to/keyframe percentages, usage context
 
-Examples:
+**How to extract @keyframes** — run `{SKILL_DIR}/scripts/extract-keyframes.py` or this browser console snippet:
 
-- `--motion-duration-fast`
-- `--motion-duration-normal`
-- `--motion-ease-standard`
-- `--motion-ease-emphasized`
+```javascript
+const keyframes = [];
+for (const sheet of document.styleSheets) {
+  try {
+    for (const rule of sheet.cssRules) {
+      if (rule.type === CSSRule.KEYFRAMES_RULE) {
+        keyframes.push({ name: rule.name, cssText: rule.cssText });
+      }
+    }
+  } catch(e) { /* CORS restriction, skip */ }
+}
+console.log(JSON.stringify(keyframes, null, 2));
+```
 
-Also summarize animation archetypes such as:
+Abstract into motion tokens:
+- `--motion-duration-fast`, `--motion-duration-normal`
+- `--motion-ease-standard`, `--motion-ease-emphasized`
 
-- fade in
-- slide up
-- scale in
-- subtle glow
-- hover lift
-- underline reveal
-- pattern drift
-- shimmer
-- scan-line motion
+Animation archetypes to look for:
+- Modal/drawer: scaleIn, scaleOut, enterFromRight/Left
+- Accordion: accordion-down/up
+- Pattern: slidePattern (background pattern drift)
+- Loading: spin, pulse, shimmer, progress-slide
+- Reveal: fadeIn, slideUp, enter
+- Hover: subtle scale, lift, glow
 
 ### 7. Component archetypes
 Extract reusable component families rather than page-specific instances.
@@ -507,17 +517,17 @@ Always try to map raw observations into roles.
 ### Rule 4: Extract states actively
 Do not assume the static DOM shows all relevant UI states.
 
-If possible, inspect or infer:
+For **every component archetype** in the manifest, you must record all of the following states:
 
+- default
 - hover
 - focus-visible
 - active
 - selected
-- open
 - disabled
 - loading
 
-If a state cannot be reliably observed, label it as inferred or unavailable.
+If a state cannot be reliably observed, you **must** explicitly record it as `"inferred"` or `"unavailable"` — do not omit it silently. A missing state entry is not the same as an unavailable state.
 
 ### Rule 5: Build archetypes, not clones
 If you see 11 cards, do not export 11 card classes unless they are meaningfully distinct.
@@ -537,6 +547,22 @@ Do not preserve source page copy unless the user explicitly asks.
 
 ### Rule 7: Report uncertainty honestly
 If some styles are not reliably extractable, say so.
+
+**Never emit an empty object or empty array** for a field you could not extract. Instead:
+- If the value is genuinely absent from the design (e.g. no shadows used), set the field to `null` and add a note to `limitations`.
+- If the value exists but could not be measured, set it to `"inferred: <reason>"` or add it to `limitations`.
+
+Bad:
+```json
+"shadow": {}
+"surfaces": {}
+```
+
+Good:
+```json
+"shadow": null,
+"limitations": ["Shadow styles not observed — site appears to use no box-shadow"]
+```
 
 Typical limitations include:
 
@@ -599,6 +625,12 @@ python3 {SKILL_DIR}/scripts/extract-styles.py https://example.com --dark
 python3 {SKILL_DIR}/scripts/extract-styles.py https://example.com --dark --out /tmp/styles.json
 ```
 
+**For @keyframes extraction** (required for animation system):
+
+```bash
+python3 {SKILL_DIR}/scripts/extract-keyframes.py https://example.com --out /tmp/keyframes.json
+```
+
 The script outputs structured JSON with `light` and `dark` keys, each containing:
 - `cssVars` — all CSS custom properties (`--*`) from stylesheets
 - `colors` — computed `backgroundColor`, `color` on `html`/`body`/card elements
@@ -641,6 +673,7 @@ Required checks (run these before proceeding to Step 3):
 8. **Transitions**: read `getComputedStyle(el).transition` on buttons and interactive elements — record the exact easing function
 9. **Card/surface styles**: read `backgroundColor`, `borderColor`, `borderRadius`, `boxShadow` on card elements
 10. **Dark mode**: if a theme toggle exists, activate dark mode and re-read the above values
+11. **@keyframes**: extract all `@keyframes` rules from stylesheets (see section 6b for method)
 
 Record raw values first. Do not skip to naming or abstracting until all raw values are collected.
 
@@ -662,20 +695,38 @@ Identify:
 ### Step 6 — Build component archetypes
 Identify reusable component families.
 
-### Step 7 — Derive interaction rules
-Summarize the state transitions and motion behavior.
+### Step 7 — Derive interaction rules and extract @keyframes
+Summarize state transitions and motion behavior. If the site uses @keyframes (backgrounds, modals, loading states, hover effects):
+
+1. Run `{SKILL_DIR}/scripts/extract-keyframes.py` or extract via browser console
+2. For each keyframe, abstract into semantic description
+3. Map to component archetypes where used
+4. Add to manifest's `motion.keyframes` array
+5. Add animation demo section to specimen HTML
 
 ### Step 8 — Build the specimen HTML
 Create a general-purpose design reference page following the structure in `{SKILL_DIR}/references/style-specimen.html`. Save to `{SKILL_DIR}/assets/theme/{name}-style-specimen.html`.
+
+The template uses `/* REPLACE */` as placeholders for every CSS token value. You must replace every single one with a value measured from the target site. Search the output file for `/* REPLACE */` before saving — if any remain, the step is not complete. Add or remove motif cards and background sample cards to match what was actually found.
 
 ### Step 9 — Validate usefulness
 Ask:
 - Could another AI use this to generate a new page in the same style?
 - Does it capture the system rather than only one page?
 - Does it include tokens, themes, components, states, motion, and code blocks?
-- Does it include atmosphere and motifs?
+- Does it include atmosphere, motifs, and animations (@keyframes)?
+- Does the specimen HTML include an Animation System demo section if the site has @keyframes?
 
 If not, revise.
+
+### Step 10 — Sync manifest and specimen
+Before saving, verify that the manifest and specimen HTML are consistent:
+
+- Every component archetype in `manifest.components` must have a corresponding rendered section in the specimen HTML.
+- Every component section in the specimen HTML must have a corresponding archetype in `manifest.components`.
+- No field in the manifest should be an empty object `{}` or empty array `[]` — use `null` with a limitations note instead.
+
+If they are out of sync, fix both files before finishing.
 
 ---
 
@@ -700,10 +751,23 @@ The structured manifest should generally follow this shape:
   },
   "motifs": [],
   "themes": {},
-  "motion": {},
+  "motion": {
+    "duration": {},
+    "easing": {},
+    "keyframes": [
+      {
+        "name": "animationName",
+        "description": "What the animation does",
+        "from": "opacity: 0; transform: scale(0.95)",
+        "to": "opacity: 1; transform: scale(1)"
+      }
+    ]
+  },
   "components": [],
   "responsive_rules": [],
   "accessibility_notes": [],
   "limitations": []
 }
 ```
+
+**Note**: If no @keyframes were found on the site, set `motion.keyframes` to `null` with a note in `limitations`.

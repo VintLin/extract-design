@@ -5,155 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Style Specimen</title>
   <style>
+    /* ⚠️ TEMPLATE — ALL [REPLACE] values MUST be replaced with measured values from the target site. Do NOT keep any template defaults. */
+
     :root {
       /* ===== Primitive Tokens ===== */
-      --font-family-sans: Inter, "SF Pro Text", system-ui, sans-serif;
-      --font-family-mono: "SF Mono", ui-monospace, monospace;
+      --font-family-sans: /* REPLACE */;
+      --font-family-mono: /* REPLACE */;
 
-      --font-size-1: 12px;
-      --font-size-2: 14px;
-      --font-size-3: 16px;
-      --font-size-4: 20px;
-      --font-size-5: 24px;
-      --font-size-6: 32px;
-      --font-size-7: 40px;
+      --font-size-1: /* REPLACE */;
+      --font-size-2: /* REPLACE */;
+      --font-size-3: /* REPLACE */;
+      --font-size-4: /* REPLACE */;
+      --font-size-5: /* REPLACE */;
+      --font-size-6: /* REPLACE */;
+      --font-size-7: /* REPLACE */;
 
-      --line-height-tight: 1.2;
-      --line-height-normal: 1.5;
-      --line-height-relaxed: 1.7;
+      --line-height-tight: /* REPLACE */;
+      --line-height-normal: /* REPLACE */;
+      --line-height-relaxed: /* REPLACE */;
 
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
+      --space-1: /* REPLACE */;
+      --space-2: /* REPLACE */;
+      --space-3: /* REPLACE */;
+      --space-4: /* REPLACE */;
+      --space-5: /* REPLACE */;
+      --space-6: /* REPLACE */;
+      --space-8: /* REPLACE */;
+      --space-10: /* REPLACE */;
+      --space-12: /* REPLACE */;
 
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 20px;
+      --radius-sm: /* REPLACE */;
+      --radius-md: /* REPLACE */;
+      --radius-lg: /* REPLACE */;
+      --radius-xl: /* REPLACE */;
 
-      --border-width-1: 1px;
-      --border-width-2: 2px;
+      --border-width-1: /* REPLACE */;
+      --border-width-2: /* REPLACE */;
 
-      --shadow-xs: 0 1px 2px rgba(0,0,0,.06);
-      --shadow-sm: 0 4px 12px rgba(0,0,0,.08);
-      --shadow-md: 0 12px 32px rgba(0,0,0,.12);
-      --shadow-lg: 0 24px 64px rgba(0,0,0,.16);
+      --shadow-xs: /* REPLACE */;
+      --shadow-sm: /* REPLACE */;
+      --shadow-md: /* REPLACE */;
+      --shadow-lg: /* REPLACE */;
 
-      --motion-duration-fast: 120ms;
-      --motion-duration-normal: 220ms;
-      --motion-duration-slow: 360ms;
-      --motion-ease-standard: cubic-bezier(.2,.8,.2,1);
-      --motion-ease-emphasized: cubic-bezier(.2,0,0,1);
+      --motion-duration-fast: /* REPLACE */;
+      --motion-duration-normal: /* REPLACE */;
+      --motion-duration-slow: /* REPLACE */;
+      --motion-ease-standard: /* REPLACE */;
+      --motion-ease-emphasized: /* REPLACE */;
 
-      --container-max: 1200px;
+      --container-max: /* REPLACE */;
 
       /* ===== Background / Motif Primitives ===== */
-      --pattern-size-sm: 16px;
-      --pattern-size-md: 24px;
-      --pattern-size-lg: 40px;
-      --noise-opacity: 0.06;
-      --glow-blur-sm: 36px;
-      --glow-blur-md: 72px;
-      --glow-blur-lg: 120px;
-      --decorative-line-opacity: 0.14;
+      --pattern-size-sm: /* REPLACE */;
+      --pattern-size-md: /* REPLACE */;
+      --pattern-size-lg: /* REPLACE */;
+      --noise-opacity: /* REPLACE */;
+      --glow-blur-sm: /* REPLACE */;
+      --glow-blur-md: /* REPLACE */;
+      --glow-blur-lg: /* REPLACE */;
+      --decorative-line-opacity: /* REPLACE */;
     }
 
     [data-theme="light"] {
       /* ===== Semantic Tokens ===== */
-      --color-bg-page: #ffffff;
-      --color-surface-1: #ffffff;
-      --color-surface-2: #f8fafc;
-      --color-surface-3: #f1f5f9;
+      --color-bg-page: /* REPLACE */;
+      --color-surface-1: /* REPLACE */;
+      --color-surface-2: /* REPLACE */;
+      --color-surface-3: /* REPLACE */;
 
-      --color-text-primary: #0f172a;
-      --color-text-secondary: #475569;
-      --color-text-muted: #64748b;
-      --color-text-inverse: #ffffff;
+      --color-text-primary: /* REPLACE */;
+      --color-text-secondary: /* REPLACE */;
+      --color-text-muted: /* REPLACE */;
+      --color-text-inverse: /* REPLACE */;
 
-      --color-border-default: #e2e8f0;
-      --color-border-strong: #cbd5e1;
+      --color-border-default: /* REPLACE */;
+      --color-border-strong: /* REPLACE */;
 
-      --color-brand-primary: #2563eb;
-      --color-brand-primary-hover: #1d4ed8;
+      --color-brand-primary: /* REPLACE */;
+      --color-brand-primary-hover: /* REPLACE */;
 
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-      --color-info: #0284c7;
+      --color-success: /* REPLACE */;
+      --color-warning: /* REPLACE */;
+      --color-danger: /* REPLACE */;
+      --color-info: /* REPLACE */;
 
-      --color-code-bg: #0b1020;
-      --color-code-text: #e5e7eb;
-      --color-code-muted: #94a3b8;
-      --color-code-keyword: #93c5fd;
-      --color-code-string: #86efac;
-      --color-code-number: #fca5a5;
-      --color-code-comment: #64748b;
+      --color-code-bg: /* REPLACE */;
+      --color-code-text: /* REPLACE */;
+      --color-code-muted: /* REPLACE */;
+      --color-code-keyword: /* REPLACE */;
+      --color-code-string: /* REPLACE */;
+      --color-code-number: /* REPLACE */;
+      --color-code-comment: /* REPLACE */;
 
-      --focus-ring: 0 0 0 3px rgba(37, 99, 235, .22);
+      --focus-ring: /* REPLACE */;
 
       /* ===== Background / Atmosphere Tokens ===== */
-      --bg-page-base: #ffffff;
-      --bg-page-overlay: linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0));
-      --bg-page-pattern: none;
-      --bg-hero-gradient: radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 42%);
-      --bg-section-muted: #f8fafc;
-      --ambient-glow-primary: rgba(37, 99, 235, 0.16);
-      --ambient-glow-secondary: rgba(14, 165, 233, 0.10);
-      --pattern-stripe-color: rgba(15, 23, 42, 0.08);
-      --pattern-grid-color: rgba(15, 23, 42, 0.06);
-      --pattern-dot-color: rgba(15, 23, 42, 0.10);
-      --motif-line-color: rgba(15, 23, 42, 0.10);
+      --bg-page-base: /* REPLACE */;
+      --bg-page-overlay: /* REPLACE */;
+      --bg-page-pattern: /* REPLACE */;
+      --bg-hero-gradient: /* REPLACE */;
+      --bg-section-muted: /* REPLACE */;
+      --ambient-glow-primary: /* REPLACE */;
+      --ambient-glow-secondary: /* REPLACE */;
+      --pattern-stripe-color: /* REPLACE */;
+      --pattern-grid-color: /* REPLACE */;
+      --pattern-dot-color: /* REPLACE */;
+      --motif-line-color: /* REPLACE */;
     }
 
     [data-theme="dark"] {
-      --color-bg-page: #0b1020;
-      --color-surface-1: #0f172a;
-      --color-surface-2: #111827;
-      --color-surface-3: #1f2937;
+      --color-bg-page: /* REPLACE */;
+      --color-surface-1: /* REPLACE */;
+      --color-surface-2: /* REPLACE */;
+      --color-surface-3: /* REPLACE */;
 
-      --color-text-primary: #f8fafc;
-      --color-text-secondary: #cbd5e1;
-      --color-text-muted: #94a3b8;
-      --color-text-inverse: #020617;
+      --color-text-primary: /* REPLACE */;
+      --color-text-secondary: /* REPLACE */;
+      --color-text-muted: /* REPLACE */;
+      --color-text-inverse: /* REPLACE */;
 
-      --color-border-default: #243041;
-      --color-border-strong: #334155;
+      --color-border-default: /* REPLACE */;
+      --color-border-strong: /* REPLACE */;
 
-      --color-brand-primary: #60a5fa;
-      --color-brand-primary-hover: #93c5fd;
+      --color-brand-primary: /* REPLACE */;
+      --color-brand-primary-hover: /* REPLACE */;
 
-      --color-success: #4ade80;
-      --color-warning: #f59e0b;
-      --color-danger: #f87171;
-      --color-info: #38bdf8;
+      --color-success: /* REPLACE */;
+      --color-warning: /* REPLACE */;
+      --color-danger: /* REPLACE */;
+      --color-info: /* REPLACE */;
 
-      --color-code-bg: #020617;
-      --color-code-text: #e2e8f0;
-      --color-code-muted: #94a3b8;
-      --color-code-keyword: #93c5fd;
-      --color-code-string: #86efac;
-      --color-code-number: #fca5a5;
-      --color-code-comment: #64748b;
+      --color-code-bg: /* REPLACE */;
+      --color-code-text: /* REPLACE */;
+      --color-code-muted: /* REPLACE */;
+      --color-code-keyword: /* REPLACE */;
+      --color-code-string: /* REPLACE */;
+      --color-code-number: /* REPLACE */;
+      --color-code-comment: /* REPLACE */;
 
-      --focus-ring: 0 0 0 3px rgba(96, 165, 250, .28);
+      --focus-ring: /* REPLACE */;
 
-      --bg-page-base: #0b1020;
-      --bg-page-overlay: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
-      --bg-page-pattern: none;
-      --bg-hero-gradient: radial-gradient(circle at top right, rgba(96, 165, 250, 0.18), transparent 42%);
-      --bg-section-muted: #111827;
-      --ambient-glow-primary: rgba(96, 165, 250, 0.20);
-      --ambient-glow-secondary: rgba(56, 189, 248, 0.14);
-      --pattern-stripe-color: rgba(255,255,255,0.08);
-      --pattern-grid-color: rgba(255,255,255,0.06);
-      --pattern-dot-color: rgba(255,255,255,0.14);
-      --motif-line-color: rgba(255,255,255,0.12);
+      --bg-page-base: /* REPLACE */;
+      --bg-page-overlay: /* REPLACE */;
+      --bg-page-pattern: /* REPLACE */;
+      --bg-hero-gradient: /* REPLACE */;
+      --bg-section-muted: /* REPLACE */;
+      --ambient-glow-primary: /* REPLACE */;
+      --ambient-glow-secondary: /* REPLACE */;
+      --pattern-stripe-color: /* REPLACE */;
+      --pattern-grid-color: /* REPLACE */;
+      --pattern-dot-color: /* REPLACE */;
+      --motif-line-color: /* REPLACE */;
     }
 
     * { box-sizing: border-box; }
@@ -426,7 +428,7 @@
       position: relative;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,.08);
+      border: 1px solid var(--color-border-default);
       background: var(--color-code-bg);
       color: var(--color-code-text);
       box-shadow: var(--shadow-sm);
@@ -439,8 +441,8 @@
       padding: 10px 14px;
       font-size: var(--font-size-2);
       color: var(--color-code-muted);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
+      border-bottom: 1px solid var(--color-border-default);
+      background: var(--color-surface-2);
     }
 
     .code pre {
@@ -469,6 +471,7 @@
     .callout.warning { border-left: 4px solid var(--color-warning); }
     .callout.danger { border-left: 4px solid var(--color-danger); }
 
+    /* SECTION: Visual Character — replace component CSS below with extracted styles from target site */
     .hero {
       position: relative;
       overflow: hidden;
@@ -476,7 +479,6 @@
       border-radius: calc(var(--radius-xl) + 4px);
       background:
         var(--bg-hero-gradient),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
         var(--color-surface-2);
       border: 1px solid var(--color-border-default);
       box-shadow: var(--shadow-sm);
@@ -491,7 +493,7 @@
         repeating-linear-gradient(
           90deg,
           transparent 0 23px,
-          rgba(255,255,255,0.04) 23px 24px
+          var(--pattern-stripe-color) 23px 24px
         );
       opacity: .35;
       pointer-events: none;
@@ -510,7 +512,7 @@
       min-width: 120px;
     }
 
-    /* ===== Background / Atmosphere Demo ===== */
+    /* SECTION: Background / Atmosphere Demo ===== */
     .background-board {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -533,9 +535,9 @@
       padding: 6px 10px;
       font-size: var(--font-size-2);
       border-radius: 999px;
-      background: rgba(255,255,255,.08);
+      background: var(--color-surface-2);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,.12);
+      border: 1px solid var(--color-border-default);
       color: var(--color-text-primary);
     }
 
@@ -556,14 +558,11 @@
     .bg-hero-atmosphere {
       background:
         radial-gradient(circle at top right, var(--ambient-glow-primary), transparent 38%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
         var(--color-surface-2);
     }
 
     .bg-muted-section {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
-        var(--bg-section-muted);
+      background: var(--bg-section-muted);
     }
 
     .atmosphere-scene {
@@ -584,9 +583,7 @@
     }
 
     .atmosphere-base {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
-        var(--bg-page-base);
+      background: var(--bg-page-base);
     }
 
     .atmosphere-pattern {
@@ -666,6 +663,7 @@
       pointer-events: none;
     }
 
+    /* SECTION: Motif Library — replace component CSS below with extracted styles from target site */
     .motif-stripe::before {
       background:
         repeating-linear-gradient(
@@ -696,6 +694,7 @@
       opacity: .9;
     }
 
+    /* SECTION: Navigation — replace component CSS below with extracted styles from target site */
     .nav-demo {
       display: flex;
       gap: var(--space-3);
@@ -717,6 +716,7 @@
       border-color: var(--color-border-strong);
     }
 
+    /* SECTION: Overlay — replace component CSS below with extracted styles from target site */
     .overlay-demo {
       display: grid;
       place-items: center;
@@ -725,16 +725,14 @@
       border: 1px solid var(--color-border-default);
       position: relative;
       overflow: hidden;
-      background:
-        radial-gradient(circle at center, rgba(255,255,255,.05), transparent 45%),
-        var(--color-surface-2);
+      background: var(--color-surface-2);
     }
 
     .overlay-demo::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(2, 6, 23, 0.18);
+      background: var(--color-scrim, rgba(0,0,0,0.18));
       pointer-events: none;
     }
 
@@ -754,9 +752,49 @@
       to { transform: translateX(16px); }
     }
 
+    /* SECTION: Animation System — add extracted @keyframes below this line */
+    /* REPLACE: Add your @keyframes here, e.g.:
+    @keyframes yourAnimation {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    */
+
+    .animation-demo {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .anim-box {
+      min-height: 100px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border-default);
+      background: var(--color-surface-1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-size: var(--font-size-2);
+      color: var(--color-text-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .anim-box span {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+    }
+
+    /* REPLACE: Add animation demo classes for your extracted @keyframes */
+
     @media (max-width: 1000px) {
       .background-board,
-      .motif-grid {
+      .motif-grid,
+      .animation-demo {
         grid-template-columns: 1fr 1fr;
       }
     }
@@ -769,7 +807,8 @@
       .page { padding: var(--space-8) var(--space-4) var(--space-10); }
       .grid-2, .grid-3,
       .background-board,
-      .motif-grid {
+      .motif-grid,
+      .animation-demo {
         grid-template-columns: 1fr;
       }
       .toolbar {
@@ -794,44 +833,44 @@
   {
     "meta": {
       "title": "Style Specimen",
-      "source": "replace-with-source",
-      "notes": "Replace placeholder tokens and sections with extracted style data."
+      "source": null,
+      "notes": null
     },
     "style_character": {
-      "summary": "Replace with a concise summary of the extracted design language.",
-      "mood": [],
-      "density": "replace",
-      "contrast": "replace"
+      "summary": null,
+      "mood": null,
+      "density": null,
+      "contrast": null
     },
     "primitives": {
-      "fonts": {},
-      "spacing": {},
-      "radius": {},
-      "shadow": {},
-      "motion": {},
-      "pattern": {}
+      "fonts": null,
+      "spacing": null,
+      "radius": null,
+      "shadow": null,
+      "motion": null,
+      "pattern": null
     },
     "semantic": {
-      "colors": {},
-      "surfaces": {},
-      "text": {}
+      "colors": null,
+      "surfaces": null,
+      "text": null
     },
     "background": {
-      "page": {},
-      "sections": [],
-      "layers": [],
-      "gradients": [],
-      "patterns": [],
-      "images": [],
-      "overlays": []
+      "page": null,
+      "sections": null,
+      "layers": null,
+      "gradients": null,
+      "patterns": null,
+      "images": null,
+      "overlays": null
     },
-    "motifs": [],
-    "themes": ["light", "dark"],
-    "motion": {},
-    "components": [],
-    "responsive_rules": [],
-    "accessibility_notes": [],
-    "limitations": []
+    "motifs": null,
+    "themes": null,
+    "motion": null,
+    "components": null,
+    "responsive_rules": null,
+    "accessibility_notes": null,
+    "limitations": null
   }
   </script>
 </head>
@@ -845,6 +884,7 @@
       <button class="btn btn-secondary theme-toggle" id="themeToggle">Toggle theme</button>
     </div>
 
+    <!-- SECTION: Visual Character — replace component CSS below with extracted styles from target site -->
     <section class="section hero">
       <h2 style="margin-top:0;">Visual Character</h2>
       <p class="muted">Replace this with a concise summary of the extracted design language, including atmosphere and motifs.</p>
@@ -855,6 +895,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Color Board — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Color Board</h2>
       <div class="grid grid-3">
@@ -873,6 +914,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Typography — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Typography</h2>
       <div class="card">
@@ -885,8 +927,10 @@
       </div>
     </section>
 
+    <!-- SECTION: Background System — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Background System</h2>
+      <!-- Add/remove bg-sample cards based on actual background layers found -->
       <div class="background-board">
         <div class="bg-sample bg-page-base">
           <div class="bg-label">Page Base</div>
@@ -903,6 +947,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Atmosphere Demo — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Atmosphere Demo</h2>
       <div class="atmosphere-scene">
@@ -920,8 +965,10 @@
       </div>
     </section>
 
+    <!-- SECTION: Motif Library — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Motif Library</h2>
+      <!-- Add/remove motif cards based on what motifs were actually found in the target site -->
       <div class="motif-grid">
         <div class="motif-card motif-stripe">Diagonal Stripe</div>
         <div class="motif-card motif-gridline">Gridline</div>
@@ -930,6 +977,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Cards — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Cards</h2>
       <div class="grid grid-3">
@@ -949,6 +997,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Forms — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Forms</h2>
       <div class="card">
@@ -972,6 +1021,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Navigation — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Navigation</h2>
       <div class="card">
@@ -984,6 +1034,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Table — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Table</h2>
       <table class="table">
@@ -1014,6 +1065,7 @@
       </table>
     </section>
 
+    <!-- SECTION: Prose — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Prose</h2>
       <div class="card prose">
@@ -1021,6 +1073,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Code Block — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Code Block</h2>
       <div class="code">
@@ -1037,6 +1090,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Callouts — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Callouts</h2>
       <div class="grid grid-2">
@@ -1047,6 +1101,7 @@
       </div>
     </section>
 
+    <!-- SECTION: Overlay — replace component CSS below with extracted styles from target site -->
     <section class="section">
       <h2>Overlay</h2>
       <div class="overlay-demo">
@@ -1057,6 +1112,27 @@
             <button class="btn btn-primary">Confirm</button>
             <button class="btn btn-secondary">Cancel</button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Animation System — add extracted @keyframes demos below -->
+    <section class="section">
+      <h2>Animation System</h2>
+      <p class="muted" style="margin-bottom:16px;">Replace this section with extracted @keyframes from the site's CSS. Add animation demo boxes and the @keyframes definitions in the CSS section above.</p>
+      <div class="animation-demo">
+        <!-- REPLACE: Add anim-box elements here for each extracted @keyframes -->
+        <div class="anim-box">
+          <span>Animation 1</span>
+        </div>
+        <div class="anim-box">
+          <span>Animation 2</span>
+        </div>
+        <div class="anim-box">
+          <span>Animation 3</span>
+        </div>
+        <div class="anim-box">
+          <span>Animation 4</span>
         </div>
       </div>
     </section>
