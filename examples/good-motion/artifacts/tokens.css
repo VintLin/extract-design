@@ -1,0 +1,8 @@
+:root {
+  --color-text-primary: #111111;
+  --color-accent: #2563eb;
+  --space-4: 16px;
+  --radius-md: 8px;
+  --shadow-surface: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --border-default: 1px solid #dddddd;
+}

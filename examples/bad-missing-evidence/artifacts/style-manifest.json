@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "2.0",
+  "meta": {
+    "name": "bad-missing-evidence",
+    "sourceUrl": "https://example.com",
+    "capturedAt": "2026-05-22T00:00:00Z",
+    "mode": "single-url"
+  },
+  "evidence": {
+    "items": []
+  },
+  "rawSources": [
+    {
+      "id": "raw:computed/styles",
+      "type": "computed-styles",
+      "path": "raw/computed-styles.json",
+      "generatedBy": "extract-styles.py",
+      "capturedAt": "2026-05-22T00:00:00Z",
+      "evidence": ["ev:computed/missing"]
+    }
+  ],
+  "design_system": {
+    "colors": [],
+    "typography": [],
+    "spacing": [],
+    "radii": [],
+    "shadows": [],
+    "borders": []
+  },
+  "design_style": {
+    "mood": [],
+    "composition": [],
+    "density": "unknown",
+    "visual_language": [],
+    "generation_guidance": []
+  },
+  "components": [],
+  "motion": {
+    "present": false,
+    "patterns": []
+  },
+  "reuse_filter": [],
+  "limitations": [
+    {
+      "id": "limitation.motion.none",
+      "severity": "info",
+      "area": "motion",
+      "message": "No meaningful motion was observed.",
+      "impact": "No motion guide is generated."
+    }
+  ]
+}

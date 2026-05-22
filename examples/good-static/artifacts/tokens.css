@@ -1,0 +1,9 @@
+:root {
+  --color-bg-page: #ffffff;
+  --color-text-primary: #111111;
+  --color-accent: #2563eb;
+  --space-4: 16px;
+  --radius-md: 8px;
+  --shadow-surface: none;
+  --border-default: 1px solid #dddddd;
+}

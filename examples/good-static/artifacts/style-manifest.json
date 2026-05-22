@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "2.0",
+  "meta": {
+    "name": "good-static",
+    "sourceUrl": "https://example.com",
+    "capturedAt": "2026-05-22T00:00:00Z",
+    "generator": "extract-design",
+    "mode": "single-url"
+  },
+  "evidence": {
+    "items": [
+      {
+        "id": "ev:screenshot/home",
+        "type": "screenshot",
+        "path": "evidence/screenshots/home.png",
+        "description": "Baseline screenshot fixture",
+        "capturedAt": "2026-05-22T00:00:00Z"
+      },
+      {
+        "id": "ev:computed/body",
+        "type": "computed-style",
+        "path": "raw/computed-styles.json",
+        "description": "Computed style fixture",
+        "capturedAt": "2026-05-22T00:00:00Z"
+      }
+    ]
+  },
+  "rawSources": [
+    {
+      "id": "raw:computed/styles",
+      "type": "computed-styles",
+      "path": "raw/computed-styles.json",
+      "generatedBy": "extract-styles.py",
+      "capturedAt": "2026-05-22T00:00:00Z",
+      "evidence": ["ev:computed/body"],
+      "status": "available"
+    }
+  ],
+  "design_system": {
+    "colors": [
+      {
+        "id": "color.text.primary",
+        "value": "#111111",
+        "role": "text",
+        "usage": "Primary text",
+        "token": "--color-text-primary",
+        "confidence": {
+          "level": "high",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ],
+    "typography": [
+      {
+        "id": "type.body",
+        "role": "body",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px",
+        "lineHeight": "24px",
+        "fontWeight": "400",
+        "letterSpacing": "0px",
+        "token": "type.body",
+        "confidence": {
+          "level": "high",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ],
+    "spacing": [
+      {
+        "id": "space.4",
+        "value": "16px",
+        "role": "scale",
+        "usage": "Fixture spacing",
+        "token": "--space-4",
+        "evidence": ["ev:computed/body"],
+        "confidence": {
+          "level": "medium",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ],
+    "radii": [
+      {
+        "id": "radius.md",
+        "value": "8px",
+        "role": "medium",
+        "usage": "Fixture radius",
+        "token": "--radius-md",
+        "evidence": ["ev:computed/body"],
+        "confidence": {
+          "level": "medium",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ],
+    "shadows": [
+      {
+        "id": "shadow.surface",
+        "value": "none",
+        "role": "surface",
+        "usage": "Fixture shadow",
+        "token": "--shadow-surface",
+        "evidence": ["ev:computed/body"],
+        "confidence": {
+          "level": "high",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ],
+    "borders": [
+      {
+        "id": "border.default",
+        "value": "1px solid #dddddd",
+        "role": "surface",
+        "usage": "Fixture border",
+        "token": "--border-default",
+        "evidence": ["ev:computed/body"],
+        "confidence": {
+          "level": "medium",
+          "method": "measured",
+          "evidence": ["ev:computed/body"]
+        }
+      }
+    ]
+  },
+  "design_style": {
+    "mood": ["plain"],
+    "composition": ["centered"],
+    "density": "medium",
+    "visual_language": ["fixture"],
+    "generation_guidance": ["Use tokens only."]
+  },
+  "visual_effects": [],
+  "components": [
+    {
+      "id": "component.button.primary",
+      "name": "Primary Button",
+      "category": "button",
+      "description": "Fixture button",
+      "anatomy": ["container", "label"],
+      "states": [
+        {
+          "name": "default",
+          "properties": {
+            "background": "var(--color-accent)"
+          },
+          "evidence": ["ev:computed/body"],
+          "confidence": {
+            "level": "medium",
+            "method": "measured",
+            "evidence": ["ev:computed/body"]
+          }
+        }
+      ],
+      "tokens": ["--color-accent", "--space-4", "--radius-md"],
+      "evidence": ["ev:computed/body"],
+      "confidence": {
+        "level": "medium",
+        "method": "measured",
+        "evidence": ["ev:computed/body"]
+      }
+    }
+  ],
+  "motion": {
+    "present": false,
+    "patterns": []
+  },
+  "responsive_rules": [],
+  "accessibility_notes": [],
+  "reuse_filter": [
+    {
+      "feature": "Brand assets",
+      "decision": "Discarded",
+      "reason": "Fixture anti-clone rule.",
+      "evidence": ["ev:screenshot/home"]
+    }
+  ],
+  "limitations": [
+    {
+      "id": "limitation.motion.none",
+      "severity": "info",
+      "area": "motion",
+      "message": "No meaningful motion was observed.",
+      "impact": "No motion guide is generated."
+    }
+  ]
+}

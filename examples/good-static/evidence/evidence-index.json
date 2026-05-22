@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "ev:screenshot/home",
+      "type": "screenshot",
+      "path": "evidence/screenshots/home.png",
+      "description": "Baseline screenshot fixture",
+      "capturedAt": "2026-05-22T00:00:00Z"
+    },
+    {
+      "id": "ev:computed/body",
+      "type": "computed-style",
+      "path": "raw/computed-styles.json",
+      "description": "Computed style fixture",
+      "capturedAt": "2026-05-22T00:00:00Z"
+    }
+  ]
+}

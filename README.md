@@ -1,121 +1,132 @@
 # Extract Design
 
-A Claude Code skill for extracting a webpage's design language into a reusable HTML style reference file. Perfect for learning design systems, creating AI-generated pages in a specific style, or building design token systems.
+Extract Design 是一个 Codex / Claude Code skill，用于从公开网页中提取可复用的网页设计语言。它提取设计系统，而不是复制页面。
 
-## What This Does
+v1 面向单个公开 URL，输出证据、raw 数据、manifest、tokens、style guide 和 style specimen。默认输出到调用项目的 `outputs/extractions/<name>/`，可通过 `--out-dir` 覆盖。
 
-**Extract Web Style** analyzes any webpage and produces a universal style specimen HTML — not a clone, but an extraction of the underlying design system. It captures:
+## v1 范围
 
-- **Primitive tokens** — raw colors, fonts, sizes, spacing
-- **Semantic tokens** — `--color-text-primary`, `--color-bg-page`, etc.
-- **Component archetypes** — buttons, cards, inputs, navigation patterns
-- **Interaction rules** — hover states, transitions, animations
-- **Theme variants** — light/dark mode behavior
+支持：
 
-The output is a self-contained HTML file that another AI can read and use to generate new pages in the same visual style.
+- 单 URL 提取。
+- computed style、CSS variables、typography、color、spacing、surface、component 和基础 motion 证据。
+- transition declaration scan 和常见前端动效库检测。
+- 运行产物写入独立 extraction 目录。
+- 版本化示例放在 `examples/<name>/`。
+- 基础 validation，支持 warning mode 和 strict mode。
 
-## Key Features
+不支持：
 
-- **Style System Extraction** — captures the design DNA, not just DOM copy
-- **Semantic Token Naming** — abstracts raw values into meaningful roles
-- **Dark Mode Support** — extracts and validates both light and dark themes
-- **Component Archetypes** — compresses similar components into reusable patterns
-- **Signature Animation Detection** — identifies brand-specific motion patterns
-- **Machine-Readable Manifest** — JSON design manifest embedded for AI consumption
+- 多 URL 合成。
+- 截图作为主输入。
+- 登录态页面的默认采集。
+- 完整组件库生成。
+- 像素级复刻。
+- 审计评分和参数化 specimen。
 
-## Installation
+## 输出结构
 
-### For Claude Code Users
+默认结构：
+
+```text
+outputs/extractions/<name>/
+  guides/
+    style-guide.md
+    evidence-manifest.md
+    motion-guide.md
+  evidence/
+    screenshots/
+    assets/
+    notes/
+    evidence-index.json
+  artifacts/
+    style-manifest.json
+    style-specimen.html
+    tokens.json
+    tokens.css
+  raw/
+    computed-styles.json
+    transition-scan.json
+    library-detect.json
+    keyframes.json
+    interaction-diff.json
+```
+
+无有意义 motion 时，不生成 `guides/motion-guide.md`，但必须在 `guides/evidence-manifest.md` 和 `artifacts/style-manifest.json` 的 `limitations` 中说明。
+
+`extract-styles.py` 会始终生成 `raw/transition-scan.json` 和 `raw/library-detect.json`。只有检测到可归类的 transition pattern 时，才会生成 `guides/motion-guide.md` 并将 `motion.present` 设为 `true`。
+
+`outputs/` 是运行产物，默认被 `.gitignore` 忽略。`examples/` 是可维护示例，可以进入版本管理。
+
+## 基本命令
+
+安装运行依赖：
 
 ```bash
-git clone https://github.com/VintLin/extract-design.git ~/.claude/skills/extract-design
+python3 -m pip install playwright
+python3 -m playwright install chromium
 ```
 
-Then use it by typing `/extract-design` in Claude Code.
-
-### Manual Copy
+提取 computed styles：
 
 ```bash
-git clone https://github.com/VintLin/extract-design.git ~/.claude/skills/extract-design
+python3 scripts/extract-styles.py https://example.com --name example
 ```
 
-## Usage
+指定输出目录：
 
-### Extract a Website's Design
-
-```
-/extract-design
-
-> "Extract the design system from https://factory.ai"
+```bash
+python3 scripts/extract-styles.py https://example.com --out-dir /tmp/example-extraction
 ```
 
-The skill will:
-1. Analyze the webpage's visual system
-2. Extract typography, colors, spacing, motion
-3. Identify component patterns and states
-4. Generate a universal style specimen HTML
-5. Save it to `assets/theme/<site-name>-style-specimen.html` inside the skill directory
+提取 keyframes：
 
-### Create Pages in the Extracted Style
-
-```
-/extract-design
-
-> "Use the factory.ai design system to create a landing page for my open-source project"
+```bash
+python3 scripts/extract-keyframes.py https://example.com --out outputs/extractions/example/raw/keyframes.json
 ```
 
-The skill will read the specimen file and generate new pages using the same design language.
+验证输出：
 
-## Output Structure
+```bash
+python3 scripts/validate-extraction.py outputs/extractions/example
+python3 scripts/validate-extraction.py --strict outputs/extractions/example
+```
 
-Each extraction produces:
+验证 fixtures：
 
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | The extraction skill itself |
-| `scripts/extract-styles.py` | Built-in Playwright extraction script |
-| `assets/theme/*-style-manifest.json` | Structured style manifest (JSON) |
-| `assets/theme/*-style-specimen.html` | Universal style specimen HTML |
-| `references/` | Supporting documentation and templates |
+```bash
+python3 scripts/test-validation-fixtures.py
+```
 
-## Architecture
+## 运行环境
 
-This skill follows a **progressive disclosure** design:
+- Python 3.8+。
+- `extract-styles.py` 和 URL 模式的 `extract-keyframes.py` 需要 Playwright 和 Chromium。
+- `validate-extraction.py` 与 `test-validation-fixtures.py` 不需要网络。
+- folder 模式的 `extract-keyframes.py` 只解析已保存 CSS 文件，不访问网络。
 
-| File | Purpose | Loaded When |
-|------|---------|-------------|
-| `SKILL.md` | Core workflow and extraction rules | Always (skill invocation) |
-| `assets/theme/*.html` | Extracted design references | When generating pages in that style |
+## 与相近工具的边界
 
-The skill prioritizes:
-- **Abstraction over fidelity** — same design language, not same page
-- **Semantic naming** — `--color-text-primary` not `--color-base-900`
-- **State completeness** — hover, focus, active, disabled states
-- **Theme awareness** — proper dark mode token mapping
+- 类似 `extract-design-system`：保留 raw -> normalized -> tokens 分层，但 v1 只承诺 starter tokens 和设计参考，不生成完整组件库。
+- 类似 `style-extractor`：每次运行生成独立目录，并保留 evidence、raw、guides 和 artifacts。
+- 类似 `impeccable`：validation 区分确定性错误和人工判断风险。
 
-## Philosophy
+## 第三方内容与隐私
 
-1. **Extract the system, not the page.** A good extraction should let you recreate countless pages in the same style.
+v1 默认只处理公开页面。登录态页面需要用户明确确认。
 
-2. **Names should explain purpose.** Raw hex values mean nothing. `--color-accent` means everything.
+提取结果可能包含第三方 CSS、截图、字体、图片或品牌资产。提交或分发输出前，应先审查 `evidence/` 和 `guides/evidence-manifest.md`。不要把 logo、商标、专属插图、摄影或原站文案当作可复用设计资产。
 
-3. **States matter as much as defaults.** A button without hover states isn't a complete component.
+## 项目结构
 
-4. **Themes are first-class citizens.** Light and dark modes need equal attention.
+```text
+extract-design/
+  SKILL.md
+  README.md
+  scripts/
+  references/
+  examples/
+  REFACTOR_PLAN.md
+```
 
-5. **Signatures make it memorable.** Brand-specific animations (like Factory.ai's stripe overlay) are worth preserving.
-
-## Requirements
-
-- [Claude Code](https://claude.ai/claude-code) CLI
-- Python 3.8+
-- Playwright: `pip install playwright && playwright install chromium`
-- Web access (for fetching target pages)
-
-## Credits
-
-Created with Claude Code.
-
-## License
-
-MIT — Use it, modify it, share it.
+`references/schema.md` 是 manifest 和 validation 的依据。`references/workflow.md` 描述 agent 提取流程。`references/output-contract.md` 描述目录和产物职责。
